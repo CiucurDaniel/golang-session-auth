@@ -14,7 +14,7 @@ func hompageHandler(w http.ResponseWriter, r *http.Request) {
 
 	template := template.Must(template.ParseFiles("./templates/index.html"))
 
-	err := template.Execute(w, "home")
+	err := template.Execute(w, nil)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
