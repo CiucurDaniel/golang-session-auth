@@ -33,6 +33,19 @@ func signInGetHandler(w http.ResponseWriter, r *http.Request) {
 
 func signInPostHandler(w http.ResponseWriter, r *http.Request) {
 
+	err := r.ParseForm()
+	if err != nil {
+		fmt.Println("Error parsing form")
+	}
+
+	fmt.Printf("Email: %s \n", r.Form["email"][0])
+	fmt.Printf("Password: %s \n", r.Form["password"][0])
+
+	template := template.Must(template.ParseFiles("./templates/index.html"))
+	template.Execute(w, nil)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
 }
 
 func signOutGetHandler(w http.ResponseWriter, r *http.Request) {
@@ -69,6 +82,7 @@ func main() {
 
 	r.Get("/", hompageHandler)
 	r.Get("/login", signInGetHandler)
+	r.Post("/login", signInPostHandler)
 	r.Get("/register", registerGetHandler)
 
 	log.Fatal(http.ListenAndServe(":3060", r))
